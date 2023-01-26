@@ -67,6 +67,16 @@ def getDates(parent):
         return dates
     return dates
 
+def getAuthors(parent):
+    authorList = []
+    if parent != None:
+        for authors in parent:
+            for author in authors:
+                if author.tag == "author":
+                    authorList.append(author.find("style").text)
+    return authorList
+
+
 def convertListToString(list):
     return str(list).replace("[", "").replace("]", "").replace("\'", "")
 
@@ -79,7 +89,7 @@ def main():
         recNumber = getattr(record.find("rec-number"), 'text', None)
         foreignKeys = convertListToString(getChildren(record.find("foreign-keys")))
         refType = getattr(record.find('ref-type'), 'text', None)
-        contributors = convertListToString(getChildren(record.find('contributors')))
+        contributors = convertListToString(getAuthors(record.find('contributors')))
         titles = convertListToString(getTitles(record.find('titles')))
         periodical = convertListToString(getChildren(record.find('periodical')))
         abstract = convertListToString(getChildren(record.find('abstract')))
