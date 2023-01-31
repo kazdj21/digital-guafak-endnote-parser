@@ -1,4 +1,4 @@
-import xml.etree.ElementTree as tree
+import xml.etree.ElementTree as Tree
 import pandas as pd
 
 # columns: database, source-app, rec-number, foreign-keys, ref-type, contributors
@@ -9,6 +9,7 @@ cols = ["rec-number", "foreign-keys", "ref-type",
         "keywords", "dates", "urls", "work-type"]
 
 rows = []
+
 
 def getChildren(parent):
     children = []
@@ -23,6 +24,7 @@ def getChildren(parent):
                     children.append("")
     return children
 
+
 def getTitles(parent):
     titles = []
     if parent != None:
@@ -31,6 +33,7 @@ def getTitles(parent):
             titles.append(entry)
     return titles
 
+
 def getKeys(parent):
     keysList = []
     if parent != None:
@@ -38,6 +41,7 @@ def getKeys(parent):
             entry = getattr(keys.find('style'), 'text', None)
             keysList.append(entry)
     return keysList
+
 
 def getUrls(parent):
     urlList = []
@@ -48,6 +52,7 @@ def getUrls(parent):
                     entry = getattr(url.find('style'), 'text', None)
                     urlList.append(entry)
     return urlList
+
 
 def getDates(parent):
     dates = []
@@ -67,6 +72,7 @@ def getDates(parent):
         return dates
     return dates
 
+
 def getAuthors(parent):
     authorList = []
     if parent != None:
@@ -80,9 +86,10 @@ def getAuthors(parent):
 def convertListToString(list):
     return str(list).replace("[", "").replace("]", "").replace("\'", "")
 
+
 # getattr(record.find("foreign-keys"), 'text', None)
 def main():
-    file = tree.parse(input("Provide the filename within the directory to parse: "))
+    file = Tree.parse(input("Provide the filename within the directory to parse: "))
     root = file.getroot()
     count = 0
     for record in root[0]:
@@ -121,6 +128,7 @@ def main():
     df = pd.DataFrame(rows, columns=cols)
 
     df.to_csv("output.csv")
+
 
 if __name__ == '__main__':
     main()
